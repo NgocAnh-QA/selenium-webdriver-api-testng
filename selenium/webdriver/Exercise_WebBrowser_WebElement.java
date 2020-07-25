@@ -1,6 +1,7 @@
 package webdriver;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.util.concurrent.TimeUnit;
 
@@ -56,6 +57,44 @@ public class Exercise_WebBrowser_WebElement {
 		assertEquals(driver.getTitle(), "Create New Customer Account");
 		
 	}
+	
+	@Test
+	public void TC_03_NavigateFunction() {
+		// Step 03
+		driver.findElement(By.linkText("CREATE AN ACCOUNT")).click();
+		
+		// Step 04 
+		assertEquals(driver.getCurrentUrl(),"http://live.demoguru99.com/index.php/customer/account/create/");
+		
+		// Step 05 
+		driver.navigate().back();
+		
+		// Step 06
+		assertEquals(driver.getCurrentUrl(), "http://live.demoguru99.com/index.php/customer/account/login/");
+		
+		//Step 07 
+		driver.navigate().forward();
+		
+		// Step 08 
+		assertEquals(driver.getTitle(), "Create New Customer Account");
+
+	}
+	
+	
+	@Test
+	public void TC_04_GetPageSourceCode() {
+		// Step 03 
+		assertTrue(driver.getPageSource().contains("Login or Create an Account"));
+		
+		
+		// Step 04 
+		driver.findElement(By.linkText("CREATE AN ACCOUNT")).click();;
+		
+		// Step 05 
+		assertTrue(driver.getPageSource().contains("Create an Account"));
+	}
+	
+	
 	@AfterMethod
 	public void afterClass() {
 		driver.quit();
