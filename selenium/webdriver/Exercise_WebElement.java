@@ -54,6 +54,7 @@ public class Exercise_WebElement {
 		// Step 02
 		String textEnabled = "Element is enabled";
 		String textDisabled = "Element is disabled";
+		
 		if (driver.findElement(By.id("mail")).isEnabled()) {
 			System.out.println(textEnabled);
 		} else System.out.println(textDisabled);
@@ -105,7 +106,6 @@ public class Exercise_WebElement {
 		if (driver.findElement(By.name("slider-2")).isEnabled()) {
 			System.out.println(textEnabled);
 		} else System.out.println(textDisabled);
-
 	}
 
 	@AfterMethod
