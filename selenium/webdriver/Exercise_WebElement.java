@@ -25,7 +25,7 @@ public class Exercise_WebElement {
 
 	}
 
-	@Test
+	@Test(enabled = false)
 	public void TC_01_CheckDisplayed() throws InterruptedException {
 		// Step 02
 		WebElement mail = driver.findElement(By.id("mail"));
@@ -49,7 +49,7 @@ public class Exercise_WebElement {
 
 	}
 
-	@Test
+	@Test(enabled = false)
 	public void TC_02_CheckEnabled() {
 		// Step 02
 		String textEnabled = "Element is enabled";
@@ -106,6 +106,30 @@ public class Exercise_WebElement {
 		if (driver.findElement(By.name("slider-2")).isEnabled()) {
 			System.out.println(textEnabled);
 		} else System.out.println(textDisabled);
+	}
+	
+	@Test
+	public void TC_03_CheckSelected() throws InterruptedException {
+		WebElement age = driver.findElement(By.id("under_18"));
+		WebElement develop = driver.findElement(By.id("development"));
+		
+		age.click();
+		Thread.sleep(4000);
+		
+		develop.click();
+		Thread.sleep(4000);
+		
+		if(age.isSelected()) {
+			System.out.println("Age is selected");
+		}
+		
+		develop.click();
+		Thread.sleep(4000);
+		
+		if (!develop.isSelected()) {
+			System.out.println("Development is unselected");
+		}
+		Thread.sleep(4000);
 	}
 
 	@AfterMethod
