@@ -20,11 +20,6 @@ public class Exercise_WebElement {
 		driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
-
-		// Step 01
-		driver.get("https://automationfc.github.io/basic-form/index.html");
-		Thread.sleep(2000);
-
 	}
 
 	@Test(enabled = false)
@@ -173,37 +168,69 @@ public class Exercise_WebElement {
 		WebElement username = driver.findElement(By.id("new_username"));
 		WebElement password = driver.findElement(By.id("new_password"));
 		WebElement btnCreate = driver.findElement(By.id("create-account"));
-		WebElement chkb	= driver.findElement(By.id("marketing_newsletter"));
+		WebElement chkb = driver.findElement(By.id("marketing_newsletter"));
 
 		// Step 02
 		email.sendKeys("qc001hcm@gmail.com");
 		Thread.sleep(2000);
-		username.sendKeys("ngocanh02");
+		username.sendKeys("ngocanhqc99");
 		Thread.sleep(2000);
 
 		// Step 03 + 04
-		password.sendKeys("01");
-		Thread.sleep(3000);
 		password.sendKeys("na");
-		Thread.sleep(3000);
-		password.sendKeys("QC");
-		Thread.sleep(3000);
-		password.sendKeys(".");
-		Thread.sleep(3000);
-		if (!btnCreate.isEnabled()) {
-			System.out.println("Password invalid");
+		if (driver.findElement(By.xpath(".//*[@class='lowercase-char completed']")).isDisplayed()) {
+			System.out.println("Parameter Lower Case is valid");
+			password.clear();
 		}
-		password.sendKeys("hcm");
 		Thread.sleep(3000);
-		
-		// Step 05  kiểm tra checkbox được chọn sau khi click thành công
-		btnCreate.click();
-		if (chkb.isSelected()) {
-			System.out.println("Checkbox is selected");
-		}
-		 
-		
 
+		password.sendKeys("QC");
+		if (driver.findElement(By.xpath(".//*[@class='uppercase-char completed']")).isDisplayed()) {
+			System.out.println("Parameter Upper Case is valid");
+			password.clear();
+		}
+		Thread.sleep(3000);
+
+		password.sendKeys("00");
+		if (driver.findElement(By.xpath(".//*[@class='number-char completed']")).isDisplayed()) {
+			System.out.println("Parameter Number is valid");
+			password.clear();
+		}
+		Thread.sleep(3000);
+
+		password.sendKeys("@");
+		if (driver.findElement(By.xpath(".//*[@class='special-char completed']")).isDisplayed()) {
+			System.out.println("Parameter Character is valid");
+			password.clear();
+		}
+		Thread.sleep(3000);
+
+		password.sendKeys("ngocanhhh");
+		if (driver.findElement(By.xpath(".//*[@class='8-char completed']")).isDisplayed()) {
+			System.out.println("Number of letter is valid");
+			password.clear();
+		}
+		Thread.sleep(3000);
+
+		password.sendKeys("Ng0c@nh99");
+		if (btnCreate.isEnabled()) {
+			System.out.println("Password is valid");
+		}
+		else {
+			System.out.println("Password is invalid");
+		}
+
+		// Step 05 kiểm tra checkbox được chọn sau khi click thành công
+		Thread.sleep(2000);
+		chkb.click();
+		if (chkb.isSelected()) {
+			System.out.println("Checkbox is checked");
+			Thread.sleep(2000);
+			btnCreate.click();
+		}
+		else {
+			System.out.println("Checkbox is not checked");
+		}
 	}
 
 	@AfterMethod
