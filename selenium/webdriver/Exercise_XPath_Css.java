@@ -23,7 +23,8 @@ public class Exercise_XPath_Css {
 		Thread.sleep(2000);
 		
 		// Step 02
-		driver.findElement(By.xpath("//a[.='My Account']"));
+		driver.findElement(By.xpath("//div[@class = 'footer']//a[.='My Account']")).click();;
+		//driver.findElement(By.linkText("MY ACCOUNT")).click();;
 		Thread.sleep(2000);
 	}
 	
@@ -33,7 +34,7 @@ public class Exercise_XPath_Css {
 		driver.findElement(By.xpath("//button[@id='send2']")).click();
 		
 		// Step 05
-		driver.findElement(By.xpath("//div[@id='advice-required-entry-email']']")).isDisplayed();
+		driver.findElement(By.xpath("//div[@id='advice-required-entry-email']")).isDisplayed();
 		driver.findElement(By.xpath("//div[@id='advice-required-entry-pass']")).isDisplayed();
 	}
 	@AfterMethod
