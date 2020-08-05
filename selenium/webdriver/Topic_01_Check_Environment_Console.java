@@ -12,7 +12,7 @@ public class Topic_01_Check_Environment_Console {
 
 	static WebDriver driver;
 
-	@BeforeMethod
+	@BeforeClass
 	public void setUp() {
 		System.out.println("Step Set Up");
 	}
@@ -34,7 +34,7 @@ public class Topic_01_Check_Environment_Console {
 		
 	}
 	
-	@AfterMethod
+	@AfterClass
 	public void finish() {
 		System.out.println("Step Ends");
 	}
