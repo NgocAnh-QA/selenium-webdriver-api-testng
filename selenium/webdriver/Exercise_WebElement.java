@@ -8,21 +8,23 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class Exercise_WebElement {
 	WebDriver driver;
 
-	@BeforeMethod
+	@BeforeClass
 	public void beforeClass() throws InterruptedException {
 		driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 	}
 
-	@Test(enabled = false)
+	@Test
 	public void TC_01_CheckDisplayed() throws InterruptedException {
 		// Step 01
 		driver.get("https://automationfc.github.io/basic-form/index.html");
@@ -50,83 +52,98 @@ public class Exercise_WebElement {
 
 	}
 
-	@Test(enabled = false)
+	@Test
 	public void TC_02_CheckEnabled() throws InterruptedException {
 		// Step 01
 		driver.get("https://automationfc.github.io/basic-form/index.html");
 		Thread.sleep(2000);
 
 		// Step 02
-		String textEnabled = "Element is enabled";
-		String textDisabled = "Element is disabled";
+		String textEnabled =  "is enabled";
+		String textDisabled = "is disabled";
 
-		if (driver.findElement(By.id("mail")).isEnabled()) {
-			System.out.println(textEnabled);
+		WebElement mail = driver.findElement(By.id("mail"));
+		WebElement age = driver.findElement(By.id("under_18"));
+		WebElement edu = driver.findElement(By.id("edu"));
+		WebElement job1 = driver.findElement(By.id("job1"));
+		WebElement job2 = driver.findElement(By.name("user_job2"));
+		WebElement interestDev = driver.findElement(By.id("development"));
+		WebElement slider1 = driver.findElement(By.name("slider-1"));
+		WebElement password = driver.findElement(By.id("password"));
+		WebElement ageDisable = driver.findElement(By.id("radio-disabled"));
+		WebElement bio = driver.findElement(By.id("bio"));
+		WebElement job3 = driver.findElement(By.name("user_job3"));
+		WebElement slider2 = driver.findElement(By.name("slider-2"));
+		WebElement interestDisable = driver.findElement(By.id("check-disbaled"));
+		
+		
+		if (mail.isEnabled()) {
+			System.out.println("Mail " + textEnabled);
 		} else
-			System.out.println(textDisabled);
+			System.out.println("Mail " + textDisabled);
 
-		if (driver.findElement(By.id("edu")).isEnabled()) {
-			System.out.println(textEnabled);
+		if (edu.isEnabled()) {
+			System.out.println("Education " + textEnabled);
 		} else
-			System.out.println(textDisabled);
+			System.out.println("Education " + textDisabled);
 
-		if (driver.findElement(By.id("under_18")).isEnabled()) {
-			System.out.println(textEnabled);
+		if (age.isEnabled()) {
+			System.out.println("Age Under 18 " + textEnabled);
 		} else
-			System.out.println(textDisabled);
+			System.out.println("Age Under 18 "+ textDisabled);
+		
+		if (job1.isEnabled()) {
+			System.out.println("Job 1 " + textEnabled);
+		} else
+			System.out.println("Job 1 " + textDisabled);
 
-		if (driver.findElement(By.id("job1")).isEnabled()) {
-			System.out.println(textEnabled);
+		if (job2.isEnabled()) {
+			System.out.println("Job 2 " + textEnabled);
 		} else
-			System.out.println(textDisabled);
+			System.out.println("Job 2 " + textDisabled);
+		
+		if (interestDev.isEnabled()) {
+			System.out.println("Development " +textEnabled);
+		} else
+			System.out.println("Development " + textDisabled);
 
-		if (driver.findElement(By.name("user_job2")).isEnabled()) {
-			System.out.println(textEnabled);
+		if (slider1.isEnabled()) {
+			System.out.println("Slider 1 " + textEnabled);
 		} else
-			System.out.println(textDisabled);
+			System.out.println("Slider 1 " +textDisabled);
+		
+		if (password.isEnabled()) {
+			System.out.println("Password " + textEnabled);
+		} else
+			System.out.println("Password "+ textDisabled);
 
-		if (driver.findElement(By.id("development")).isEnabled()) {
-			System.out.println(textEnabled);
+		if (ageDisable.isEnabled()) {
+			System.out.println("Age Disable " + textEnabled);
 		} else
-			System.out.println(textDisabled);
+			System.out.println("Age Disable " + textDisabled);
 
-		if (driver.findElement(By.name("slider-1")).isEnabled()) {
-			System.out.println(textEnabled);
+		if (bio.isEnabled()) {
+			System.out.println("Biography " + textEnabled);
 		} else
-			System.out.println(textDisabled);
+			System.out.println("Biography " +textDisabled);
 
-		if (driver.findElement(By.id("password")).isEnabled()) {
-			System.out.println(textEnabled);
+		if (job3.isEnabled()) {
+			System.out.println("Job 3 " + textEnabled);
 		} else
-			System.out.println(textDisabled);
+			System.out.println("Job 3 " + textDisabled);
 
-		if (driver.findElement(By.id("radio-disabled")).isEnabled()) {
-			System.out.println(textEnabled);
+		if (interestDisable.isEnabled()) {
+			System.out.println("Interest Disabled "+ textEnabled);
 		} else
-			System.out.println(textDisabled);
+			System.out.println("Interest Disabled " + textDisabled);
 
-		if (driver.findElement(By.id("bio")).isEnabled()) {
-			System.out.println(textEnabled);
+		if (slider2.isEnabled()) {
+			System.out.println("Slider 2 "+ textEnabled);
 		} else
-			System.out.println(textDisabled);
-
-		if (driver.findElement(By.name("user_job3")).isEnabled()) {
-			System.out.println(textEnabled);
-		} else
-			System.out.println(textDisabled);
-
-		if (driver.findElement(By.id("check-disbaled")).isEnabled()) {
-			System.out.println(textEnabled);
-		} else
-			System.out.println(textDisabled);
-
-		if (driver.findElement(By.name("slider-2")).isEnabled()) {
-			System.out.println(textEnabled);
-		} else
-			System.out.println(textDisabled);
+			System.out.println("Slider 2 "+ textDisabled);
 	}
 
-	@Test(enabled = false)
+	@Test
 	public void TC_03_CheckSelected() throws InterruptedException {
 		// Step 01
 		driver.get("https://automationfc.github.io/basic-form/index.html");
@@ -233,7 +250,7 @@ public class Exercise_WebElement {
 		}
 	}
 
-	@AfterMethod
+	@AfterClass
 	public void afterClass() {
 		driver.quit();
 	}
