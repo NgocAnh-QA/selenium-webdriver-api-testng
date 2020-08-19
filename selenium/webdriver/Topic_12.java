@@ -10,18 +10,16 @@ public class Topic_12 {
 	WebDriver driver;
   
     @Test
-	public void Cross_Browser_Firefox_Lastest() throws InterruptedException{
-		//System.setProperty("webdriver.gecko.driver", "D:\\QA\\02 - Selenium API\\selenium-webdriver-api-testng\\browserDriver\\geckodriver.exe");
+	public void Cross_Browser_Firefox_Lastest(){
+		System.setProperty("webdriver.gecko.driver", "D:\\QA\\02 - Selenium API\\selenium-webdriver-api-testng\\browserDriver\\geckodriver.exe");
 		driver = new FirefoxDriver();
 		driver.get("https://www.facebook.com/");
-		Thread.sleep(3000);
 		driver.quit();
 	}
 	
-	/*
+	
 	@Test
 	public void Cross_Browser_Chrome() {
-
 		System.setProperty("webdriver.chrome.driver", "D:\\QA\\02 - Selenium API\\selenium-webdriver-api-testng\\browserDriver\\chromedriver.exe");
 		driver = new ChromeDriver();
 		driver.get("https://www.facebook.com/");
@@ -34,5 +32,5 @@ public class Topic_12 {
 		driver.get("https://www.facebook.com/");
 		driver.quit();
 	}
-	*/	
+	
 }
