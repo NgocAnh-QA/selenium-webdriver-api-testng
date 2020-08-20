@@ -1,19 +1,13 @@
 package webdriver;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.annotations.Test;
+import org.openqa.selenium.Keys;
 
 public class Nhap {
-	WebDriver driver;
-
-	@Test
-	public void TC_name() throws InterruptedException {
-		System.setProperty("webdriver.gecko.driver", "D:\\QA\\02 - Selenium API\\selenium-webdriver-api-testng\\browserDriver\\geckodriver.exe");
-		driver = new FirefoxDriver();
-		driver.get("https://www.facebook.com/");
-		Thread.sleep(3000);
-		driver.quit();
-
+	public static void main(String[] args) {
+		
+		String infor_birth = "20082020";
+		System.out.println(infor_birth.length());
+		System.out.println(infor_birth.length()-3);
+		System.out.println(infor_birth.substring(4,8)+"-"+infor_birth.substring(2,4)+"-" +infor_birth.substring(0,2));
 	}
 }
