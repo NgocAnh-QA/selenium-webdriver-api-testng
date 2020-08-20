@@ -2,16 +2,13 @@ package webdriver;
 
 import java.util.concurrent.TimeUnit;
 
-import javax.sound.midi.Soundbank;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class Exercise_WebElement {
@@ -19,7 +16,8 @@ public class Exercise_WebElement {
 
 	@BeforeClass
 	public void beforeClass() throws InterruptedException {
-		driver = new FirefoxDriver();
+		System.setProperty("webdriver.chrome.driver", "D:\\QA\\02 - Selenium API\\selenium-webdriver-api-testng\\browserDriver\\chromedriver.exe");
+		driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 	}
@@ -163,6 +161,9 @@ public class Exercise_WebElement {
 		if (age.isSelected()) {
 			System.out.println("Age is selected");
 		}
+		if (develop.isSelected()) {
+			System.out.println("Development is selected");
+		}
 
 		// Step 04
 		develop.click();
@@ -194,6 +195,13 @@ public class Exercise_WebElement {
 		Thread.sleep(2000);
 
 		// Step 03 + 04
+		password.sendKeys("00");
+		if (driver.findElement(By.xpath(".//*[@class='number-char completed']")).isDisplayed()) {
+			System.out.println("Parameter Number is valid");
+			password.clear();
+		}
+		Thread.sleep(3000);
+		
 		password.sendKeys("na");
 		if (driver.findElement(By.xpath(".//*[@class='lowercase-char completed']")).isDisplayed()) {
 			System.out.println("Parameter Lower Case is valid");
@@ -208,14 +216,7 @@ public class Exercise_WebElement {
 		}
 		Thread.sleep(3000);
 
-		password.sendKeys("00");
-		if (driver.findElement(By.xpath(".//*[@class='number-char completed']")).isDisplayed()) {
-			System.out.println("Parameter Number is valid");
-			password.clear();
-		}
-		Thread.sleep(3000);
-
-		password.sendKeys("@");
+		password.sendKeys("@#$");
 		if (driver.findElement(By.xpath(".//*[@class='special-char completed']")).isDisplayed()) {
 			System.out.println("Parameter Character is valid");
 			password.clear();
@@ -228,6 +229,7 @@ public class Exercise_WebElement {
 			password.clear();
 		}
 		Thread.sleep(3000);
+		Assert.assertTrue(!btnCreate.isEnabled());
 
 		password.sendKeys("Ng0c@nh99");
 		if (btnCreate.isEnabled()) {
