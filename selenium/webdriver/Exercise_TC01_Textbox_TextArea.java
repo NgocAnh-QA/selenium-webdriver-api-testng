@@ -11,7 +11,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 
-public class TC01_Textbox_TextArea {
+public class Exercise_TC01_Textbox_TextArea {
 	WebDriver driver;
 	/*
 	 * Username: mngr279979 Password: rEjAgyh
