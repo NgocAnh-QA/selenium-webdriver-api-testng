@@ -17,7 +17,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 
-public class TC02_DropdownList {
+public class TC02_DropdownList_01 {
 	WebDriver driver;
 
 	@BeforeClass
@@ -134,6 +134,7 @@ public class TC02_DropdownList {
 
 	}
 
+	
 	public void deSelectedItemInDropdown(String allItemsXpath) throws InterruptedException {
 		int b = 0;
 		JavascriptExecutor js = (JavascriptExecutor) driver;
