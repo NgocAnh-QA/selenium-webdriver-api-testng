@@ -24,7 +24,7 @@ public class Exercise_Checkbox_Radio {
 		driver.manage().window().maximize();
 	}
 
-	@Test
+
 	public void TC_02_Default() throws InterruptedException  {
 		// Step 01
 		driver.get("http://demos.telerik.com/kendo-ui/styling/checkboxes");
@@ -68,6 +68,39 @@ public class Exercise_Checkbox_Radio {
 
 	@Test
 	public void TC_03_Custom() {
+		// Step 01
+		driver.get("https://material.angular.io/components/radio/examples");
+		
+		// Step 02
+		WebElement summer = driver.findElement(By.xpath("//div[@class='mat-radio-label-content' and contains(.,'Summer')]/preceding-sibling::div/input"));
+		summer.click();;
+		
+		// Step 03
+		if (!summer.isSelected()) {
+			summer.click();
+		}
+		
+		// Step 04
+		driver.get("https://material.angular.io/components/checkbox/examples");
+		
+		// Step 05
+		WebElement checked = driver.findElement(By.xpath("//span[@class='mat-checkbox-label' and contains(.,'Checked')]/preceding-sibling::div/input")); 
+		checked.click();
+		
+		WebElement intermediate = driver.findElement(By.xpath("//mat-card[contains(.,'Checkbox configuration')]//span[contains(.,'Indeterminate')]/preceding-sibling::div/input"));
+		intermediate.click();
+		
+		// Step 06
+		Assert.assertTrue(checked.isSelected());
+		Assert.assertTrue(intermediate.isSelected());
+		
+		// Step 07
+		checked.click();
+		intermediate.click();
+		
+		Assert.assertFalse(checked.isSelected());
+		Assert.assertFalse(intermediate.isSelected());
+	
 	}
 
 	@AfterClass
