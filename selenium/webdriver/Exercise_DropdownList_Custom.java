@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -50,8 +51,7 @@ public class Exercise_DropdownList_Custom {
 
 	}
 
-	@Test
-	public void Custome_Angular() {
+	public void Custom_Angular() {
 		driver.get("https://bit.ly/2UV2vYi");
 		selectElementInDropdown("//ejs-dropdownlist[@id='games']", "//ul[@id='games_options']/li", "Football");
 		Assert.assertEquals(getHiddentText("#games_hidden option"), "Football");
@@ -60,9 +60,53 @@ public class Exercise_DropdownList_Custom {
 		Assert.assertEquals(getHiddentText("#games_hidden option"), "Golf");
 	}
 
+	public void Custom_ReactJS() {
+		driver.get("https://react.semantic-ui.com/maximize/dropdown-example-selection/");
+		selectElementInDropdown("//div[@role='listbox']", "//div[@role='listbox']//div[last()]/div/span", "Matt");
+		Assert.assertEquals(getHiddentText(".selected"), "Matt");
+
+		selectElementInDropdown("//div[@role='listbox']", "//div[@role='listbox']//div[last()]/div/span", "Jenny Hess");
+		Assert.assertEquals(getHiddentText(".selected"), "Jenny Hess");
+
+	}
+
+	public void Custom_VueJS() {
+		driver.get("https://mikerodham.github.io/vue-dropdowns/");
+		selectElementInDropdown("//li[contains(.,\"Please select an item\")]", "//ul[@class='dropdown-menu']/li/a",
+				"Second Option");
+		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='dropdown-toggle']")).getText(), "Second Option");
+	}
+
+	public void Custom_Editable() {
+		driver.get("http://indrimuska.github.io/jquery-editable-select/");
+
+		sendKeyToEditableDropdown("//div[@id='slide-place']/input", "Mini");
+		Assert.assertEquals(getHiddentText("div[id='slide-place'] li.selected"), "Mini");
+
+		sendKeyToEditableDropdown("//div[@id='slide-place']/input", "Smart");
+		Assert.assertEquals(getHiddentText("div[id='slide-place'] li.selected"), "Smart");
+	}
+
+	@Test
+	public void Custom_Multiple() {
+		driver.get("http://multiple-select.wenzhixin.net.cn/examples#basic.html");
+		driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
+
+		String[] a = { "April", "August", "September" };
+		multipleSelect("//option/parent::select/following-sibling::div",
+				"//option/parent::select/following-sibling::div//li//span", a);
+	}
+
 	@AfterClass
 	public void afterClass() {
-		driver.quit();
+		// driver.quit();
+	}
+
+	public void sendKeyToEditableDropdown(String locator, String text) {
+		driver.findElement(By.xpath(locator)).clear();
+		driver.findElement(By.xpath(locator)).sendKeys(text);
+		sleepInSecond(2);
+		driver.findElement(By.xpath(locator)).sendKeys(Keys.TAB);
 	}
 
 	public void selectElementInDropdown(String xpathParent, String xpatAllItem, String textExpected) {
@@ -87,7 +131,10 @@ public class Exercise_DropdownList_Custom {
 				explicitWait.until(ExpectedConditions.elementToBeClickable(itemElement));
 				// 6. Nếu như = thì click vào và thoát khỏi vòng lặp
 				// 7.Nếu như hông = thì lại duyệt tiếp cho đến hết tất cả item
+				sleepInSecond(2);
+
 				itemElement.click();
+				sleepInSecond(2);
 				break;
 			}
 		}
@@ -95,7 +142,7 @@ public class Exercise_DropdownList_Custom {
 	}
 
 	public String getHiddentText(String cssLocator) {
-		return (String) jsExecutor.executeScript("return document.querySelector(\"" + cssLocator + "\").text");
+		return (String) jsExecutor.executeScript("return document.querySelector(\"" + cssLocator + "\").textContent");
 
 	}
 
@@ -107,4 +154,45 @@ public class Exercise_DropdownList_Custom {
 		}
 	}
 
+	public void multipleSelect(String xpathParent, String xpathAllItem, String[] expectedValue) {
+		// 1. Click vào dropdown cho nó xổ hết tất cả các item ra
+		driver.findElement(By.xpath(xpathParent)).click();
+
+		// 2. Chờ cho tất cả các item được load thành công
+		explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(xpathAllItem)));
+
+		// 3. Đưa các item vào 1 list
+		List<WebElement> allItems = driver.findElements(By.xpath(xpathAllItem));
+
+		// 4. Duyêt tất cả phần từ trong list cho đến khi thỏa mản điều kiện (Tức là tìm
+		// được cái đã chọn)
+		for (WebElement items : allItems) {
+			for (String item : expectedValue) {
+				if (items.getText().equals(item)) {
+					jsExecutor.executeScript("arguments[0].scrollIntoView(true)", items);
+					sleepInSecond(1);
+					items.click();
+					break;
+				}
+
+			}
+		}
+	}
+
+	public void checkSelectedItem(String Locator, String[] expectedValue) {
+		List<WebElement> itemsSelected = driver.findElements(By.xpath(Locator));
+		int numberSelected = itemsSelected.size();
+		Assert.assertEquals(numberSelected, expectedValue.length);
+		if (numberSelected <= 3) {
+			
+		}
+		else {
+			
+		}
+		// 5. Scroll đến item cần chọn
+		// 6. Click vào item cần chọn
+		// 7. Sau khi chọn thành công thì kiểm tra
+		// Nếu số lượng đã chọn nhỏ hơn hoặc = 3 thì hiển thị text của từng cái đã chọn
+		// Nếu không thì hiển thị số cái đã chọn / tổng số
+	}
 }
