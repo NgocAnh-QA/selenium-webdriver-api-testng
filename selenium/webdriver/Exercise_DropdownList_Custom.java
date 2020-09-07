@@ -30,7 +30,7 @@ public class Exercise_DropdownList_Custom {
 		driver = new ChromeDriver();
 		explicitWait = new WebDriverWait(driver, 30);
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		driver.manage().window().maximize();
+		// driver.manage().window().maximize();
 
 		jsExecutor = (JavascriptExecutor) driver;
 	}
@@ -94,12 +94,22 @@ public class Exercise_DropdownList_Custom {
 
 		String[] a = { "April", "August", "September" };
 		multipleSelect("//option/parent::select/following-sibling::div",
-				"//option/parent::select/following-sibling::div//li//span", a);
+				"//option/parent::select/following-sibling::div//li//span",
+				"//option/parent::select/following-sibling::div//li[@class='selected']",
+				"//option/parent::select/following-sibling::div/button/span", a);
+
+		driver.navigate().refresh();
+		
+		String[] b = { "May", "January", "October", "September" };
+		multipleSelect("//option/parent::select/following-sibling::div",
+				"//option/parent::select/following-sibling::div//li//span",
+				"//option/parent::select/following-sibling::div//li[@class='selected']",
+				"//option/parent::select/following-sibling::div/button/span", b);
 	}
 
 	@AfterClass
 	public void afterClass() {
-		// driver.quit();
+		driver.quit();
 	}
 
 	public void sendKeyToEditableDropdown(String locator, String text) {
@@ -154,7 +164,9 @@ public class Exercise_DropdownList_Custom {
 		}
 	}
 
-	public void multipleSelect(String xpathParent, String xpathAllItem, String[] expectedValue) {
+	public void multipleSelect(String xpathParent, String xpathAllItem, String xpathSelected, String xpathResult,
+			String[] expectedValue) {
+
 		// 1. Click vào dropdown cho nó xổ hết tất cả các item ra
 		driver.findElement(By.xpath(xpathParent)).click();
 
@@ -169,30 +181,46 @@ public class Exercise_DropdownList_Custom {
 		for (WebElement items : allItems) {
 			for (String item : expectedValue) {
 				if (items.getText().equals(item)) {
+					// 5. Scroll đến item cần chọn
 					jsExecutor.executeScript("arguments[0].scrollIntoView(true)", items);
 					sleepInSecond(1);
+					// 6. Click vào item cần chọn
 					items.click();
 					break;
 				}
 
 			}
 		}
+
+		checkSelectedItem(xpathParent, xpathSelected, xpathResult, expectedValue);
 	}
 
-	public void checkSelectedItem(String Locator, String[] expectedValue) {
-		List<WebElement> itemsSelected = driver.findElements(By.xpath(Locator));
+	// 7. Sau khi chọn thành công thì kiểm tra
+	public void checkSelectedItem(String parentLocator, String selectedLocator, String resultLocator,
+			String[] expectedValue) {
+		List<WebElement> AllItems = driver.findElements(By.xpath(parentLocator));
+		List<WebElement> itemsSelected = driver.findElements(By.xpath(selectedLocator));
+
 		int numberSelected = itemsSelected.size();
 		Assert.assertEquals(numberSelected, expectedValue.length);
-		if (numberSelected <= 3) {
-			
+
+		String selectedText = driver.findElement(By.xpath(resultLocator)).getText();
+		if (numberSelected <= 3 && numberSelected >= 0) {
+			// 8.Nếu số lượng đã chọn nhỏ hơn hoặc = 3 thì hiển thị text của từng cái đã
+			// chọn
+			for (String items : expectedValue) {
+				if (selectedText.contains(items)) {
+					System.out.println(driver.findElement(By.xpath(resultLocator)).getText());
+					break;
+				}
+			}
+
+		} else {
+			// 9. Nếu không thì hiển thị số cái đã chọn / tổng số
+			Assert.assertEquals(driver.findElement(By.xpath(resultLocator)).getText(),
+					numberSelected + " of " + (AllItems.size() - 1) + " selected");
+			System.out.println(driver.findElement(By.xpath(resultLocator)).getText());
 		}
-		else {
-			
-		}
-		// 5. Scroll đến item cần chọn
-		// 6. Click vào item cần chọn
-		// 7. Sau khi chọn thành công thì kiểm tra
-		// Nếu số lượng đã chọn nhỏ hơn hoặc = 3 thì hiển thị text của từng cái đã chọn
-		// Nếu không thì hiển thị số cái đã chọn / tổng số
+
 	}
 }
