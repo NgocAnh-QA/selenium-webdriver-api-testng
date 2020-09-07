@@ -99,7 +99,8 @@ public class Exercise_DropdownList_Custom {
 				"//option/parent::select/following-sibling::div/button/span", a);
 
 		driver.navigate().refresh();
-		
+		driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
+
 		String[] b = { "May", "January", "October", "September" };
 		multipleSelect("//option/parent::select/following-sibling::div",
 				"//option/parent::select/following-sibling::div//li//span",
@@ -192,16 +193,21 @@ public class Exercise_DropdownList_Custom {
 			}
 		}
 
-		checkSelectedItem(xpathParent, xpathSelected, xpathResult, expectedValue);
+		checkSelectedItem(xpathAllItem, xpathSelected, xpathResult, expectedValue);
 	}
 
 	// 7. Sau khi chọn thành công thì kiểm tra
-	public void checkSelectedItem(String parentLocator, String selectedLocator, String resultLocator,
+	public void checkSelectedItem(String listItemsLocator, String selectedLocator, String resultLocator,
 			String[] expectedValue) {
-		List<WebElement> AllItems = driver.findElements(By.xpath(parentLocator));
+		List<WebElement> AllItems = driver.findElements(By.xpath(listItemsLocator));
 		List<WebElement> itemsSelected = driver.findElements(By.xpath(selectedLocator));
 
 		int numberSelected = itemsSelected.size();
+		int numberItems = AllItems.size()-1;
+
+		System.out.println("numberSelected: " + numberSelected);
+		System.out.println("numberItems: " + numberItems);
+		
 		Assert.assertEquals(numberSelected, expectedValue.length);
 
 		String selectedText = driver.findElement(By.xpath(resultLocator)).getText();
@@ -216,10 +222,10 @@ public class Exercise_DropdownList_Custom {
 			}
 
 		} else {
+			System.out.println("====> else: " + driver.findElement(By.xpath(resultLocator)).getText());
 			// 9. Nếu không thì hiển thị số cái đã chọn / tổng số
 			Assert.assertEquals(driver.findElement(By.xpath(resultLocator)).getText(),
-					numberSelected + " of " + (AllItems.size() - 1) + " selected");
-			System.out.println(driver.findElement(By.xpath(resultLocator)).getText());
+					numberSelected + " of " + numberItems + " selected");
 		}
 
 	}
