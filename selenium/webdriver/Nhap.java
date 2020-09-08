@@ -5,8 +5,11 @@ import java.util.List;
 
 public class Nhap {
 	public static void main(String[] args) {
-	List <String> a =  Arrays.asList("test1", "test2", "test3"); 
+		int[] a = {1,3,6,11};
+		for (int i = 0; i < a.length; i++) {
+			System.out.println(a[i]-1);
+		}
 	
-	 
+		System.out.println(a.length);
 	}
 }
