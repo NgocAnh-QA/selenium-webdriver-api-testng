@@ -9,6 +9,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -23,10 +24,9 @@ public class Exercise_Alert {
 				"D:\\QA\\02 - Selenium API\\selenium-webdriver-api-testng\\browserDriver\\chromedriver.exe");
 		driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		//driver.manage().window().maximize();
+		// driver.manage().window().maximize();
 	}
 
-	
 	public void TC_Confirm_Alert() throws InterruptedException {
 		// Step 01
 		driver.get("https://automationfc.github.io/basic-form/index.html");
@@ -47,7 +47,6 @@ public class Exercise_Alert {
 
 	}
 
-	
 	public void TC_Accept_Alert() throws InterruptedException {
 		// Step 01
 		driver.get("https://automationfc.github.io/basic-form/index.html");
@@ -64,10 +63,10 @@ public class Exercise_Alert {
 
 		// Step 04
 		Thread.sleep(2000);
-		Assert.assertEquals(driver.findElement(By.cssSelector("#result")).getText(), "You clicked an alert successfully");
+		Assert.assertEquals(driver.findElement(By.cssSelector("#result")).getText(),
+				"You clicked an alert successfully");
 	}
 
-	
 	public void TC_Prompt_Alert() throws InterruptedException {
 		// Step 01
 		driver.get("https://automationfc.github.io/basic-form/index.html");
@@ -79,7 +78,7 @@ public class Exercise_Alert {
 		Alert alert = driver.switchTo().alert();
 		String textOnAlert = alert.getText();
 		Assert.assertEquals(textOnAlert, "I am a JS prompt");
-		
+
 		Thread.sleep(2000);
 		String inputAlert = "Automation Testing";
 		Thread.sleep(2000);
@@ -87,13 +86,35 @@ public class Exercise_Alert {
 		alert.accept();
 
 		// Step 04
-		Assert.assertEquals(driver.findElement(By.cssSelector("#result")).getText(), "You entered: "+ inputAlert);
+		Assert.assertEquals(driver.findElement(By.cssSelector("#result")).getText(), "You entered: " + inputAlert);
 	}
 
-	
+	@Test
+	public void TC_Authentication_Alert_Link() throws InterruptedException {
+		String username = "admin";
+		String password = "admin";
+		driver.get("https://the-internet.herokuapp.com/");
+		
+		Thread.sleep(3000);
+		WebElement element = driver.findElement(By.xpath("//a[text()='Basic Auth']"));
+		String url = element.getAttribute("href");
+		Thread.sleep(3000);
+		
+		driver.get(getUrlUsernameAndPassword(username, password, url));
+		Thread.sleep(3000);
+		
+		Assert.assertEquals(driver.findElement(By.cssSelector(".example p")).getText(), "Congratulations! You must have the proper credentials.");
+	}
+
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
+	}
+
+	public String getUrlUsernameAndPassword(String username, String password, String url) {
+		String[] a = url.split("//");
+
+		return a[0] + "//" + username + ":" + password + "@" + a[1];
 	}
 
 }
