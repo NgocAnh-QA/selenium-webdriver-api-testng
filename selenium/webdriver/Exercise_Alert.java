@@ -20,13 +20,13 @@ public class Exercise_Alert {
 
 	@BeforeClass
 	public void beforeClass() {
-		System.setProperty("webdriver.chrome.driver",
-				"D:\\QA\\02 - Selenium API\\selenium-webdriver-api-testng\\browserDriver\\chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", ".\\browserDriver\\chromedriver.exe");
 		driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		// driver.manage().window().maximize();
 	}
 
+	@Test
 	public void TC_Confirm_Alert() throws InterruptedException {
 		// Step 01
 		driver.get("https://automationfc.github.io/basic-form/index.html");
@@ -47,6 +47,7 @@ public class Exercise_Alert {
 
 	}
 
+	@Test
 	public void TC_Accept_Alert() throws InterruptedException {
 		// Step 01
 		driver.get("https://automationfc.github.io/basic-form/index.html");
@@ -67,6 +68,7 @@ public class Exercise_Alert {
 				"You clicked an alert successfully");
 	}
 
+	@Test
 	public void TC_Prompt_Alert() throws InterruptedException {
 		// Step 01
 		driver.get("https://automationfc.github.io/basic-form/index.html");
@@ -94,16 +96,17 @@ public class Exercise_Alert {
 		String username = "admin";
 		String password = "admin";
 		driver.get("https://the-internet.herokuapp.com/");
-		
+
 		Thread.sleep(3000);
 		WebElement element = driver.findElement(By.xpath("//a[text()='Basic Auth']"));
 		String url = element.getAttribute("href");
 		Thread.sleep(3000);
-		
+
 		driver.get(getUrlUsernameAndPassword(username, password, url));
 		Thread.sleep(3000);
-		
-		Assert.assertEquals(driver.findElement(By.cssSelector(".example p")).getText(), "Congratulations! You must have the proper credentials.");
+
+		Assert.assertEquals(driver.findElement(By.cssSelector(".example p")).getText(),
+				"Congratulations! You must have the proper credentials.");
 	}
 
 	@AfterClass
