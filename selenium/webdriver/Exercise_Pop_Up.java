@@ -74,7 +74,7 @@ public class Exercise_Pop_Up {
 
 		if (driver.findElement(By.cssSelector("#mailch-bg .rocket-lazyload")).isDisplayed()) {
 			sleppInSecond(5);
-			System.out.println("<================== IF ==================>");
+			System.out.println("<================== IF  ==================>");
 			driver.findElement(By.id("close-mailch")).click();
 			sleppInSecond(10);
 		}
