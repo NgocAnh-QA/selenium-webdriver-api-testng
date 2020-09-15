@@ -20,7 +20,7 @@ public class Exercise_Pop_Up {
 	WebDriver driver;
 	Actions action;
 
-	boolean status;
+	boolean status; 
 
 	@BeforeClass
 	public void beforeClass() {
@@ -33,11 +33,11 @@ public class Exercise_Pop_Up {
 
 	public void TC_01_Fixed_Popup() {
 		driver.get("https://www.zingpoll.com/");
-		sleppInSecond(10);
+		sleepInSecond(10);
 
 		// 1. Click vào popup
 		driver.findElement(By.cssSelector("#Loginform")).click();
-		sleppInSecond(5);
+		sleepInSecond(5);
 
 		Assert.assertTrue(driver.findElement(By.id("Login")).isDisplayed());
 		status = driver.findElement(By.id("Login")).isDisplayed();
@@ -45,7 +45,7 @@ public class Exercise_Pop_Up {
 
 		// 2. Đóng popup
 		driver.findElement(By.cssSelector("#Login .close")).click();
-		sleppInSecond(5);
+		sleepInSecond(5);
 
 		status = driver.findElement(By.id("Login")).isDisplayed();
 		System.out.println("Popup displays: " + status);
@@ -53,13 +53,13 @@ public class Exercise_Pop_Up {
 
 		// 3. Mở popup lần nữa
 		driver.findElement(By.cssSelector("#Loginform")).click();
-		sleppInSecond(5);
+		sleepInSecond(5);
 
 		// 4. Đăng nhập
 		driver.findElement(By.id("loginEmail")).sendKeys("automationfc.vn@gmail.com");
 		driver.findElement(By.id("loginPassword")).sendKeys("automationfc");
 
-		sleppInSecond(5);
+		sleepInSecond(5);
 		driver.findElement(By.id("button-login")).click();
 
 		// 5. Xác nhận đăng nhập không thành công
@@ -70,21 +70,21 @@ public class Exercise_Pop_Up {
 	@Test
 	public void TC_02_Random_Popup() {
 		driver.get("https://blog.testproject.io/");
-		sleppInSecond(15);
+		sleepInSecond(15);
 
 		if (driver.findElement(By.cssSelector("#mailch-bg .rocket-lazyload")).isDisplayed()) {
-			sleppInSecond(5);
+			sleepInSecond(5);
 			System.out.println("<================== IF  ==================>");
 			driver.findElement(By.id("close-mailch")).click();
-			sleppInSecond(10);
+			sleepInSecond(10);
 		}
 
 		driver.findElement(By.cssSelector("#search-2 .search-field ")).sendKeys("Selenium");
-		sleppInSecond(5);
+		sleepInSecond(5);
 		action.sendKeys(Keys.ENTER).perform();;
 
 		List<WebElement> seletecd = driver.findElements(By.cssSelector(".post-title a"));
-		sleppInSecond(5);
+		sleepInSecond(5);
 		
 		for (WebElement a : seletecd) {
 			System.out.println("Ket qua tim kiem: " + a.getText().trim());
@@ -96,7 +96,7 @@ public class Exercise_Pop_Up {
 	public void afterClass() {
 	}
 
-	public void sleppInSecond(long time) {
+	public void sleepInSecond(long time) {
 		try {
 			Thread.sleep(time * 1000);
 		} catch (InterruptedException e) {

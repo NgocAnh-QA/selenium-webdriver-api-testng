@@ -21,7 +21,7 @@ public class Exercise_IFrame {
 	WebDriver driver;
 	Actions action;
 
-	@BeforeClass
+	@BeforeClass 
 	public void beforeClass() {
 		System.setProperty("webdriver.chrome.driver", ".\\browserDriver\\chromedriver.exe");
 		driver = new ChromeDriver();
@@ -83,6 +83,7 @@ public class Exercise_IFrame {
 
 	@AfterClass
 	public void afterClass() {
+		driver.quit();
 	}
 
 	public void sleepInSecond(long time) {
