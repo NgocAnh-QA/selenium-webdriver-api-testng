@@ -106,6 +106,7 @@ public class Exercise_User_Interactions {
 
 	@Test
 	public void TC07_Drag_And_Drop_HTML() {
+		
 	}
 
 	@AfterClass
