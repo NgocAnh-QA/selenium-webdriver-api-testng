@@ -2,7 +2,7 @@ package Java_Core;
 
 import java.util.Scanner;
 
-public class RotateArray {
+public class RotateArray_part1 {
 
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);

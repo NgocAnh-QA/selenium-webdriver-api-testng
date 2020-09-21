@@ -31,45 +31,45 @@ public class Exercise_Javascript_Executor {
 
 	@Test
 	public void TC_01_Javascript_Executor() {
-		jsExecutor.executeScript("window.location='http://live.demoguru99.com/'");
+		navigateToUrlByJS("http://live.demoguru99.com/");
 		sleepInSecond(2);
 
-		String domain = (String) jsExecutor.executeScript("return document.domain");
+		String domain = (String) getDomainByJS();
 		Assert.assertEquals(domain, "live.demoguru99.com");
 		sleepInSecond(2);
 
-		String url = (String) jsExecutor.executeScript("return document.URL");
+		String url = (String) getUrlByJS();
 		Assert.assertEquals(url, "http://live.demoguru99.com/");
 		sleepInSecond(2);
 
-		WebElement element = driver.findElement(By.xpath("//a[text()='Mobile']"));
-		jsExecutor.executeScript("arguments[0].click()", element);
+		clickElementByJS("//a[text()='Mobile']");
 		sleepInSecond(2);
 
-		element = driver.findElement(By.xpath(
-				"//a[text()='Samsung Galaxy']/parent::h2/following-sibling::div[@class='actions']//button/span"));
-		jsExecutor.executeScript("arguments[0].click()", element);
+		clickElementByJS(
+				"//a[text()='Samsung Galaxy']/parent::h2/following-sibling::div[@class='actions']//button/span");
 		sleepInSecond(2);
 
-		String status = jsExecutor.executeScript("return document.documentElement.innerText").toString();
+		String status = (String) getInnerTextByJS();
 		Assert.assertTrue(status.contains("Samsung Galaxy was added to your shopping cart."));
 		sleepInSecond(2);
 
-		jsExecutor.executeScript("window.location='http://live.demoguru99.com/index.php/customer-service/'");
-		status = jsExecutor.executeScript("return document.title").toString();
+		navigateToUrlByJS("http://live.demoguru99.com/index.php/customer-service/");
+
+		status = (String) getTitleByJS();
 		Assert.assertEquals(status, "Customer Service");
 		sleepInSecond(2);
 
-		jsExecutor.executeScript("window.scrollBy(0,document.body.scrollHeight)");
+		scrollToBottomPageByJS();
 		sleepInSecond(3);
 
-		status = jsExecutor.executeScript("return document.documentElement.innerText").toString();
+		status = (String) getInnerTextByJS();
 		Assert.assertTrue(status.contains("Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo."));
 		sleepInSecond(3);
 
-		jsExecutor.executeScript("window.location='http://demo.guru99.com/v4/'");
+		navigateToUrlByJS("http://demo.guru99.com/v4/");
 		sleepInSecond(2);
-		status = jsExecutor.executeScript("return document.domain").toString();
+
+		status = (String) getDomainByJS();
 		Assert.assertEquals(status, "demo.guru99.com");
 		sleepInSecond(2);
 
@@ -80,21 +80,20 @@ public class Exercise_Javascript_Executor {
 		String username = "mngr282369";
 		String password = "naqemaj";
 
-		jsExecutor.executeScript("window.location='http://demo.guru99.com/v4'");
+		navigateToUrlByJS("http://demo.guru99.com/v4");
 
 		driver.findElement(By.name("uid")).sendKeys(username);
 		driver.findElement(By.name("password")).sendKeys(password);
 		driver.findElement(By.name("btnLogin")).click();
 
-		WebElement element = driver.findElement(By.xpath("//a[text()='New Customer']"));
-		jsExecutor.executeScript("arguments[0].click()", element);
+		clickElementByJS("//a[text()='New Customer']");
 
 		driver.findElement(By.name("name")).sendKeys("Automation Testing");
 		driver.findElement(By.name("rad1")).click();
 
-		element = driver.findElement(By.name("dob"));
-		jsExecutor.executeScript("arguments[0].removeAttribute('type')", element);
-		element.sendKeys("09/09/2020");
+		removeAttributeByJS("//input[@name='dob']", "type");
+		sleepInSecond(3);
+		driver.findElement(By.name("dob")).sendKeys("09/21/2020");
 
 		driver.findElement(By.name("addr")).sendKeys("Sai Gon");
 		driver.findElement(By.name("city")).sendKeys("Viet Nam");
@@ -106,6 +105,7 @@ public class Exercise_Javascript_Executor {
 
 		driver.findElement(By.name("sub")).click();
 
+		sleepInSecond(5);
 		String status = driver.findElement(By.cssSelector(".heading3")).getText();
 		Assert.assertTrue(status.contains("Successfully"));
 
@@ -113,15 +113,12 @@ public class Exercise_Javascript_Executor {
 
 	@Test
 	public void TC_03_Create_An_Account() {
-		jsExecutor.executeScript("window.location='http://live.demoguru99.com/'");
+		navigateToUrlByJS("http://live.demoguru99.com/");
 		sleepInSecond(2);
-
-		WebElement element = driver.findElement(By.xpath("//div[@id='header-account']//a[text()='My Account']"));
-		jsExecutor.executeScript("arguments[0].click()", element);
-
-		element = driver.findElement(By.xpath("//a[@title='Create an Account']"));
-		jsExecutor.executeScript("arguments[0].click()", element);
-
+		
+		clickElementByJS("//div[@id='header-account']//a[text()='My Account']");
+		clickElementByJS("//a[@title='Create an Account']");
+		
 		sendKeyToElementByJS("//input[@id='firstname']", "Automation");
 		sendKeyToElementByJS("//input[@id='lastname']", "Testing");
 		sendKeyToElementByJS("//input[@id='email_address']", "qaauto" + new Random().nextInt(9999) + "@gmai.com");
@@ -130,18 +127,21 @@ public class Exercise_Javascript_Executor {
 
 		clickElementByJS("//button[@title='Register']");
 
-		String status = jsExecutor.executeScript("return document.documentElement.innerText").toString();
+		
+		String status = (String)getInnerTextByJS();
 		Assert.assertTrue(status.contains("Thank you for registering with Main Website Store."));
 
 		clickElementByJS("//div[@id='header-account']//a[text()='Log Out']");
 
-		Assert.assertTrue(driver.findElement(By.xpath("//p[contains(.,'You have logged out and will be redirected to our homepage in 5 seconds.')]")).isDisplayed());
-
+		Assert.assertTrue(driver
+				.findElement(By.xpath(
+						"//p[contains(.,'You have logged out and will be redirected to our homepage in 5 seconds.')]"))
+				.isDisplayed());
 	}
 
 	@AfterClass
 	public void afterClass() {
-		 driver.quit();
+		// driver.quit();
 	}
 
 	public void sleepInSecond(long time) {
@@ -161,5 +161,40 @@ public class Exercise_Javascript_Executor {
 	public void clickElementByJS(String xpath) {
 		WebElement element = driver.findElement(By.xpath(xpath));
 		jsExecutor.executeScript("arguments[0].click()", element);
+	}
+
+	public void navigateToUrlByJS(String Url) {
+		jsExecutor.executeScript("window.location='" + Url + "'");
+	}
+
+	public Object getDomainByJS() {
+		return jsExecutor.executeScript("return document.domain");
+	}
+
+	public Object getTitleByJS() {
+		return jsExecutor.executeScript("return document.title");
+	}
+
+	public Object getUrlByJS() {
+		return jsExecutor.executeScript("return document.URL");
+	}
+
+	public Object getInnerTextByJS() {
+		return jsExecutor.executeScript("return document.documentElement.innerText");
+
+	}
+
+	public Object scrollToElementByJS(String xpath) {
+		WebElement element = driver.findElement(By.xpath(xpath));
+		return jsExecutor.executeScript("arguments[0].scrollIntoView(true)", element);
+	}
+
+	public Object scrollToBottomPageByJS() {
+		return jsExecutor.executeScript("window.scrollBy(0,document.body.scrollHeight)");
+	}
+
+	public Object removeAttributeByJS(String xpath, String attribute) {
+		WebElement element = driver.findElement(By.xpath(xpath));
+		return jsExecutor.executeScript("arguments[0].removeAttribute('" + attribute + "')", element);
 	}
 }
