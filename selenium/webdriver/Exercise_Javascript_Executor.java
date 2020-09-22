@@ -141,7 +141,7 @@ public class Exercise_Javascript_Executor {
 
 	@AfterClass
 	public void afterClass() {
-		// driver.quit();
+		 driver.quit();
 	}
 
 	public void sleepInSecond(long time) {

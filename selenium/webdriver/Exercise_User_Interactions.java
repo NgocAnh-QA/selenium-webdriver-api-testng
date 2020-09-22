@@ -3,12 +3,17 @@ package webdriver;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.InputEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -78,6 +83,7 @@ public class Exercise_User_Interactions {
 		Assert.assertEquals(driver.findElement(By.cssSelector("#demo")).getText(), "Hello Automation Guys!");
 	}
 
+	@Test
 	public void TC05_Right_Click_To_Element() {
 		driver.get("http://swisnl.github.io/jQuery-contextMenu/demo.html");
 
@@ -90,7 +96,8 @@ public class Exercise_User_Interactions {
 		sleepInSecond(2);
 		btnQuit.click();
 	}
-
+	
+	@Test
 	public void TC06_Drag_And_Drop_Element() {
 		driver.get("http://demos.telerik.com/kendo-ui/dragdrop/angular");
 
@@ -105,8 +112,19 @@ public class Exercise_User_Interactions {
 	}
 
 	@Test
-	public void TC07_Drag_And_Drop_HTML() {
+	public void TC07_Drag_And_Drop_HTML() throws AWTException, InterruptedException {
+		driver.get("https://automationfc.github.io/drag-drop-html5/");
+		String sourceXpath = "//div[@id='column-a']";
+		String targetXpath = "//div[@id='column-b']";
 		
+		drag_the_and_drop_html5_by_xpath(sourceXpath, targetXpath);
+		Thread.sleep(3000);
+		
+		drag_the_and_drop_html5_by_xpath(sourceXpath, targetXpath);
+		Thread.sleep(3000);
+		
+		drag_the_and_drop_html5_by_xpath(sourceXpath, targetXpath);
+		Thread.sleep(3000);
 	}
 
 	@AfterClass
@@ -157,6 +175,53 @@ public class Exercise_User_Interactions {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void drag_the_and_drop_html5_by_xpath(String sourceLocator, String targetLocator) throws AWTException {
+
+		WebElement source = driver.findElement(By.xpath(sourceLocator));
+		WebElement target = driver.findElement(By.xpath(targetLocator));
+
+		// Setup robot
+		Robot robot = new Robot();
+		robot.setAutoDelay(500);
+
+		// Get size of elements
+		Dimension sourceSize = source.getSize();
+		Dimension targetSize = target.getSize();
+
+		// Get center distance
+		int xCentreSource = sourceSize.width / 2;
+		int yCentreSource = sourceSize.height / 2;
+		int xCentreTarget = targetSize.width / 2;
+		int yCentreTarget = targetSize.height / 2;
+
+		Point sourceLocation = source.getLocation();
+		Point targetLocation = target.getLocation();
+		System.out.println(sourceLocation.toString());
+		System.out.println(targetLocation.toString());
+
+		// Make Mouse coordinate center of element
+		sourceLocation.x += 20 + xCentreSource;
+		sourceLocation.y += 110 + yCentreSource;
+		targetLocation.x += 20 + xCentreTarget;
+		targetLocation.y += 110 + yCentreTarget;
+
+		System.out.println(sourceLocation.toString());
+		System.out.println(targetLocation.toString());
+
+		// Move mouse to drag from location
+		robot.mouseMove(sourceLocation.x, sourceLocation.y);
+
+		// Click and drag
+		robot.mousePress(InputEvent.BUTTON1_MASK);
+		robot.mouseMove(((sourceLocation.x - targetLocation.x) / 2) + targetLocation.x, ((sourceLocation.y - targetLocation.y) / 2) + targetLocation.y);
+
+		// Move to final position
+		robot.mouseMove(targetLocation.x, targetLocation.y);
+
+		// Drop
+		robot.mouseRelease(InputEvent.BUTTON1_MASK);
 	}
 
 }
