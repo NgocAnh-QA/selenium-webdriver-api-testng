@@ -3,6 +3,7 @@ package webdriver;
 import org.testng.annotations.Test;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -17,7 +18,7 @@ import org.testng.annotations.AfterClass;
 public class Exercise_UploadFiles_Sendkey {
 	WebDriver driver;
 	JavascriptExecutor jsExecutor;
-
+	String parentID;
 	String source_folder = System.getProperty("user.dir");
 
 	String image_01 = "image_01.jpg";
@@ -106,6 +107,7 @@ public class Exercise_UploadFiles_Sendkey {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
 		driver.get("https://gofile.io/?t=uploadFiles");
+		parentID = driver.getWindowHandle();
 		driver.findElement(By.cssSelector("input[type='file']"))
 				.sendKeys(image_01_path + "\n" + image_02_path + "\n" + image_03_path);
 		
@@ -117,8 +119,28 @@ public class Exercise_UploadFiles_Sendkey {
 		
 		driver.findElement(By.xpath("//button[text()='Upload']")).click();
 		
-		// -- To be continue
+		sleepInSecond(3);
+		driver.findElement(By.xpath("//td[text()='Download link']/following-sibling::td/a")).click();
 		
+		switchToWindow(parentID);
+		
+		sleepInSecond(3);
+		Assert.assertTrue(driver.findElement(By.xpath("//td[text()='"+image_01+"']/following-sibling::td//i[@class='fa fa-download']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//td[text()='"+image_02+"']/following-sibling::td//i[@class='fa fa-download']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//td[text()='"+image_03+"']/following-sibling::td//i[@class='fa fa-download']")).isDisplayed());
+
+		Assert.assertTrue(driver.findElement(By.xpath("//td[text()='"+image_01+"']/following-sibling::td//i[@class='fas fa-play']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//td[text()='"+image_02+"']/following-sibling::td//i[@class='fas fa-play']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//td[text()='"+image_03+"']/following-sibling::td//i[@class='fas fa-play']")).isDisplayed());
+	
+		sleepInSecond(3);
+		if (driver.findElement(By.xpath("//div[@aria-describedby='swal2-content']")).isDisplayed()) {
+			sleepInSecond(5);
+			System.out.println("<================== IF  ==================>");
+			driver.findElement(By.xpath("//button[text()='I have a VPN already']")).click();
+			sleepInSecond(10);
+		}
+
 	}
 
 	@AfterClass
@@ -139,5 +161,14 @@ public class Exercise_UploadFiles_Sendkey {
 				+ "typeof arguments[0].naturalWidth != \"undefined\" && " + "arguments[0].naturalWidth > 0",
 				driver.findElement(By.xpath(xpathLocator)));
 		return result;
+	}
+	
+	public void switchToWindow(String parentID) {
+		Set<String> IdWinDow = driver.getWindowHandles();
+		for (String a : IdWinDow) {
+			if (!a.equals(parentID)) {
+				driver.switchTo().window(a);
+			}
+		}
 	}
 }

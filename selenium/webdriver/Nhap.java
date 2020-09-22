@@ -1,15 +1,47 @@
 package webdriver;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 public class Nhap {
-	public static void main(String[] args) {
-		int[] a = {1,3,6,11};
-		for (int i = 0; i < a.length; i++) {
-			System.out.println(a[i]-1);
-		}
+	WebDriver driver;
+	String source_folder = System.getProperty("user.dir");
+
+	String image_01 = "image_03.jpg";
+	String image_01_path = source_folder + "\\UploadFiles\\" + image_01;
+
+	@BeforeClass
+	public void beforeClass() throws InterruptedException {
+		System.setProperty("webdriver.chrome.driver", ".\\browserDriver\\chromedriver.exe");
+		driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		driver.manage().window().maximize();
+	}
+
+	@Test
+	public void TC_01() {
+		driver.get("https://the-internet.herokuapp.com/upload");
+		driver.findElement(By.xpath("//form//input[@type='file']")).sendKeys(image_01_path);
+		sleepInSecond(5);
+	}
+
+	@AfterClass
+	public void afterClass() {
+		driver.quit();
+	}
 	
-		System.out.println(a.length);
+	public void sleepInSecond(long time) {
+		try {
+			Thread.sleep(time*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
