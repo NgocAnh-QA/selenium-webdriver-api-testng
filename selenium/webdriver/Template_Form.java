@@ -20,10 +20,9 @@ public class Template_Form {
 	public void beforeClass() {
 		System.setProperty("webdriver.chrome.driver", ".\\browserDriver\\chromedriver.exe");
 		driver = new ChromeDriver();
-action = new Actions(driver);
+		action = new Actions(driver);
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		// driver.manage().window().maximize();
-		
 
 	}
 

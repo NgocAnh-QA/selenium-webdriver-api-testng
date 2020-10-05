@@ -29,6 +29,7 @@ public class Exercise_UploadFiles_Sendkey {
 	String image_02_path = source_folder + "\\UploadFiles\\" + image_02;
 	String image_03_path = source_folder + "\\UploadFiles\\" + image_03;
 
+	@Test
 	public void TC_01_Chrome() {
 		System.setProperty("webdriver.chrome.driver", ".\\browserDriver\\chromedriver.exe");
 		driver = new ChromeDriver();
